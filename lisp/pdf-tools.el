@@ -1,4 +1,4 @@
-;;; pdf-tools.el --- Support library for PDF documents. -*- lexical-binding:t -*-
+;;; pdf-tools-fixed.el --- Support library for PDF documents. -*- lexical-binding:t -*-
 
 ;; Copyright (C) 2013, 2014  Andreas Politz
 
@@ -242,11 +242,11 @@ Returns a appropriate directory or nil.  See also
 Ask the user if necessary and NONINTERACTIVE-P is nil.
 Returns always nil, unless `system-type' equals windows-nt."
   (cl-labels ((if-msys2-directory (directory)
-                (and (stringp directory)
-                     (file-directory-p directory)
-                     (file-exists-p
-                      (expand-file-name "usr/bin/bash.exe" directory))
-                     directory)))
+								  (and (stringp directory)
+									   (file-directory-p directory)
+									   (file-exists-p
+										(expand-file-name "usr/bin/bash.exe" directory))
+									   directory)))
     (when (eq system-type 'windows-nt)
       (setq pdf-tools-msys2-directory
             (or pdf-tools-msys2-directory
@@ -266,9 +266,9 @@ Returns always nil, unless `system-type' equals windows-nt."
   "Return the location of /mingw*/bin."
   (when (pdf-tools-msys2-directory)
     (let ((arch (intern (car (split-string system-configuration "-" t)))))
-    (expand-file-name
-     (format "./mingw%s/bin" (if (eq arch 'x86_64) "64" "32"))
-     (pdf-tools-msys2-directory)))))
+      (expand-file-name
+       (format "./mingw%s/bin" (if (eq arch 'x86_64) "64" "32"))
+       (pdf-tools-msys2-directory)))))
 
 (defun pdf-tools-find-bourne-shell ()
   "Locate a usable sh."
@@ -397,20 +397,20 @@ See `pdf-view-mode' and `pdf-tools-enabled-modes'."
                pdf-tools-directory)))
       (if (or no-query-p
               (y-or-n-p "Need to (re)build the epdfinfo program, do it now ?"))
-        (pdf-tools-build-server
-         target-directory
-         skip-dependencies-p
-         force-dependencies-p
-         (lambda (executable)
-           (let ((msg (format
-                       "Building the PDF Tools server %s"
-                       (if executable "succeeded" "failed"))))
-             (if (not executable)
-                 (funcall (if no-error-p #'message #'error) "%s" msg)
-               (message "%s" msg)
-               (setq pdf-info-epdfinfo-program executable)
-               (let ((pdf-info-restart-process-p t))
-                 (pdf-tools-install-noverify))))))
+          (pdf-tools-build-server
+           target-directory
+           skip-dependencies-p
+           force-dependencies-p
+           (lambda (executable)
+			 (let ((msg (format
+						 "Building the PDF Tools server %s"
+						 (if executable "succeeded" "failed"))))
+               (if (not executable)
+                   (funcall (if no-error-p #'message #'error) "%s" msg)
+				 (message "%s" msg)
+				 (setq pdf-info-epdfinfo-program executable)
+				 (let ((pdf-info-restart-process-p t))
+                   (pdf-tools-install-noverify))))))
         (message "PDF Tools not activated")))))
 
 (defun pdf-tools-install-noverify ()
@@ -437,9 +437,9 @@ See `pdf-view-mode' and `pdf-tools-enabled-modes'."
   (interactive)
   (pdf-info-quit)
   (setq-default auto-mode-alist
-    (remove pdf-tools-auto-mode-alist-entry auto-mode-alist))
+				(remove pdf-tools-auto-mode-alist-entry auto-mode-alist))
   (setq-default magic-mode-alist
-    (remove pdf-tools-magic-mode-alist-entry magic-mode-alist))
+				(remove pdf-tools-magic-mode-alist-entry magic-mode-alist))
   (pdf-occur-global-minor-mode -1)
   (pdf-virtual-global-minor-mode -1)
   (remove-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes)
@@ -520,6 +520,6 @@ MODES defaults to `pdf-tools-enabled-modes'."
   (when (called-interactively-p 'any)
     (message "Toggled debugging %s" (if pdf-tools-debug "on" "off"))))
 
-(provide 'pdf-tools)
+(provide 'pdf-tools-fixed)
 
 ;;; pdf-tools.el ends here

@@ -33,7 +33,7 @@
   "The item used in`magic-mode-alist'.")
 
 
-(declare-function pdf-tools-install "pdf-tools.el")
+(declare-function pdf-tools-install "pdf-tools-fixed.el")
 
 ;;;###autoload
 (defun pdf-loader-install (&optional no-query-p skip-dependencies-p
@@ -48,7 +48,7 @@ The arguments are passed verbatim to `pdf-tools-install', which
 see."
   (let ((args (list no-query-p skip-dependencies-p
                     no-error-p force-dependencies-p)))
-    (if (featurep 'pdf-tools)
+    (if (featurep 'pdf-tools-fixed)
         (apply #'pdf-tools-install args)
       (pdf-loader--install
        (lambda ()

@@ -11,8 +11,8 @@ emacs_version = $(shell $(emacs) --batch --eval \
 		'(princ (format "%s.%s" emacs-major-version emacs-minor-version))')
 $(info Using Emacs $(emacs_version))
 
-version=$(shell sed -ne 's/^;\+ *Version: *\([0-9.]\)/\1/p' lisp/pdf-tools.el)
-pkgname=pdf-tools-$(version)
+version=$(shell sed -ne 's/^;\+ *Version: *\([0-9.]\)/\1/p' lisp/pdf-tools-fixed.el)
+pkgname=pdf-tools-fixed-$(version)
 pkgfile=$(pkgname).tar
 
 .PHONY: all clean distclean bytecompile test check melpa cask-install
@@ -72,7 +72,7 @@ clean: server-clean
 	rm -f -- $(pkgfile)
 	rm -f -- lisp/*.elc
 	rm -f -- pdf-tools-readme.txt
-	rm -f -- pdf-tools-$(version).entry
+	rm -f -- pdf-tools-fixed-$(version).entry
 
 distclean: clean server-distclean
 	rm -rf -- .cask

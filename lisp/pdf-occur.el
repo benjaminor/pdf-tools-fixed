@@ -21,7 +21,7 @@
 ;;; Commentary:
 ;;
 
-(require 'pdf-tools)
+(require 'pdf-tools-fixed)
 (require 'pdf-view)
 (require 'pdf-util)
 (require 'pdf-info)
@@ -193,9 +193,9 @@ For a programmatic search of multiple documents see
          (filename-width
           (min 24
                (apply 'max
-                 (mapcar 'length
-                         (mapcar 'pdf-occur-abbrev-document
-                                 (mapcar 'car pdf-occur-search-documents))))))
+					  (mapcar 'length
+							  (mapcar 'pdf-occur-abbrev-document
+									  (mapcar 'car pdf-occur-search-documents))))))
          (page-sorter (tablist-generate-sorter
                        (if 2-columns-p 0 1)
                        '<
@@ -354,7 +354,7 @@ Compatibility function for \\[next-error] invocations."
 This global minor mode enables (or disables)
 `pdf-occur-ibuffer-minor-mode' and `pdf-occur-dired-minor-mode'
 in all current and future ibuffer/dired buffer."  nil nil nil
-:global t
+  :global t
   (let ((arg (if pdf-occur-global-minor-mode 1 -1)))
     (dolist (buf (buffer-list))
       (with-current-buffer buf
@@ -505,9 +505,9 @@ matches linked with PAGE."
            (pdf-occur-abbrev-document filename)
            'face 'pdf-occur-document-face))
          (id `(:document ,filename
-               :page ,page
-               :match-text ,(if match text)
-               :match-edges ,(if match edges))))
+						 :page ,page
+						 :match-text ,(if match text)
+						 :match-edges ,(if match edges))))
     (list id
           (if (= (length pdf-occur-search-documents) 1)
               (vector displayed-page displayed-text)
